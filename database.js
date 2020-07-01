@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
+const sequelizeImport = require("sequelize");
 require("dotenv").config();
 
 //essa parte deve ser exportada
-const sequelize = new Sequelize(proces.env.DATABASE_URL, {
+const sequelize = new sequelizeImport(proces.env.DATABASE_URL, {
     dialect: "postgres",
     dialectOptions: {
         ssl: {
