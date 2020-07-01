@@ -40,13 +40,14 @@ server.get('/notepad/:id', async (req, res)=>{
     let note;
 
     await database.query(`SELECT * FROM notepad WHERE id = ${id}`,
-    {type: database.QueryTypes.SELECT})
-    .then(noteResult =>{
-        note = noteResult;
-    })
-    .catch(err =>{
-        return res.json(err);
-    });
+        {type: database.QueryTypes.SELECT})
+        .then(noteResult =>{
+            note = noteResult;
+        })
+        .catch(err =>{
+            return res.json(err); 
+        });
+        return res.json({note})
 })
 
 server.post('/notepad', async (req,res)=>{
