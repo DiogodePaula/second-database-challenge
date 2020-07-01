@@ -1,43 +1,41 @@
-const express = require("express");
-const database = ("./datebase");
+const express = require('express');
+const database = require('./database');
 const server = express();
 server.use(express.json());
 
-server.get("/", (req,res)=>{
+server.get('/', (req,res)=>{
     return res.json({
-        reslut: "Welcome to API-Notepad"
+        reslut: 'Welcome to API-Notepad'
     });
 });
 
-let nextId = null;
+// let nextId = null;
 
-async function getNextId(req,res,next) {
-    await database.query(`SELECT MAX(id) FROM notepad;`,
-    {type: database.QueryTypes.SELECT})
-    .then(id =>{
-        nextId =[0].max;
-        nextId ++;
-        // nextId = id ++;
-        // console.log(id[0].max);
-    });
-    next();
-}
+// async function getNextId(req,res,next) {
+//     await database.query(`SELECT MAX(id) FROM notepad;`,
+//     {type: database.QueryTypes.SELECT})
+//     .then(id =>{
+//         nextId =[0].max;
+//         nextId ++;
+//     });
+//     next();
+// }
 
-server.get("/notepad", async (req,res)=>{
-    let notepad;
+server.get('/notepad', async (req,res)=>{
+    let notepadList;
 
     await database.query(`SELECT * FROM notepad`, {type: database.QueryTypes.SELECT})
-        .then(resluts => {
-            notepad = results;
+        .then(results => {
+            notepadList = results;
         })
         .catch(err =>{
-            return res.json("error getting note");
+            return res.json(err);
         })
 
-    return res.json({notepad});
+    return res.json({notepadList});
 });
 
-server.get("/notepad/:id", async (req, res)=>{
+server.get('/notepad/:id', async (req, res)=>{
     const {id} = req.params;
     let note;
 
@@ -51,9 +49,9 @@ server.get("/notepad/:id", async (req, res)=>{
     });
 })
 
-server.post("/notepad", async (req,res)=>{
+server.post('/notepad', async (req,res)=>{
     let inseriu;
-    const {title, content, date, hour} = req.body;
+    const {id, title, content, date, hour} = req.body;
 
     await database.query(`INSERT INTO notepad VALUES(${id},'${title}', '${content}', '${date}', '${hour}');`,
         {type: database.QueryTypes.INSERT})
@@ -66,11 +64,11 @@ server.post("/notepad", async (req,res)=>{
         
     if (inseriu[1]){
         return res.json({
-            result: "note successfully inserted."
+            result: 'note successfully inserted.'
         });
     } else {
         return res.json({
-            result: "note could not be registered."
+            result: 'note could not be registered.'
         });
     }
 });
