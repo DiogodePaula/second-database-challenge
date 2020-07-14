@@ -78,8 +78,9 @@ server.put('/notepad/:id', async (req,res)=>{
             update = results;
         })
         .catch(err =>{
-            return res.json({err})
+            return res.json(err)
         });
+        
     if (update[1]){
         return res.json({
             result: 'note updated successfully.'
